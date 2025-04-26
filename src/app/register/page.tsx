@@ -43,7 +43,7 @@ export default function RegisterPage() {
           <div className="mb-3">
             <label className="form-label">Your name</label>
             <input
-              type="email"
+              type="text"
               className="form-control"
               value={user.name}
               placeholder="your name.."
@@ -67,7 +67,7 @@ export default function RegisterPage() {
             <input
               type={showPassword ? "text" : "password"}
               className="form-control"
-              value={user.name}
+              value={user.password}
               placeholder="********"
               onChange={(e) => setUser({ ...user, password: e.target.value })}
               required

@@ -262,7 +262,7 @@ const Checkout = () => {
         {/* Orders & Payment */}
         <div className="bg-gray-100 p-6 rounded shadow w-full lg:w-1/2 mb-10">
           <h5 className="font-bold text-lg mb-4">Orders</h5>
-          <div className="flex justify-between border-b pb-2 font-semibold">
+          <div className="flex justify-between border-b pb-2 font-semibold p-2">
             <span>Products</span>
             <span>Subtotal</span>
           </div>
@@ -320,7 +320,7 @@ const Checkout = () => {
                 />
                 <Image src={Logo} alt="Paypal" width={200} height={30} />
               </label>
-              <label className="flex items-center gap-2">
+              <label className="flex items-center gap-2 m-2">
                 <input
                   type="radio"
                   value="bankTransfer"
@@ -329,7 +329,7 @@ const Checkout = () => {
                 />
                 Docer Bank transfer
               </label>
-              <label className="flex items-center gap-2">
+              <label className="flex items-center gap-2 m-2">
                 <input
                   type="radio"
                   value="cashOnDelivery"

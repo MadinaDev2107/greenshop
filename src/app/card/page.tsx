@@ -23,7 +23,8 @@ const Card = () => {
 
     const { data: addings, error: addingError } = await supabase
       .from("card")
-      .select("*");
+      .select("*")
+      .eq("userId", userId)
 
     if (addingError) {
       console.error("Error fetching cart items:", addingError);
