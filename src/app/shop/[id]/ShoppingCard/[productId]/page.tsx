@@ -5,8 +5,17 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { FaMinus, FaPlus, FaTrash } from "react-icons/fa";
 
+interface Product {
+  id: number;
+  product: {
+    name: string;
+    price: number;
+    image: string;
+  };
+  quantity: number;
+}
 const Shopping = () => {
-  const [cartItems, setCartItems] = useState<any[]>([]);
+  const [cartItems, setCartItems] = useState<Product[]>([]);
   const [userId, setUserId] = useState("");
 
   useEffect(() => {

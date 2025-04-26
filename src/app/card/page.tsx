@@ -4,8 +4,17 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { supabase } from "../supbaseClient";
 
+interface Product {
+  id: string;
+  product: {
+    name: string;
+    price: string;
+    image: string;
+  };
+  quantity: number;
+}
 const Card = () => {
-  const [cardItems, setCardItems] = useState([]);
+  const [cardItems, setCardItems] = useState<Product[]>([]);
   const [userId, setUserId] = useState("");
   const [loading, setLoading] = useState(true);
 
@@ -24,7 +33,7 @@ const Card = () => {
     const { data: addings, error: addingError } = await supabase
       .from("card")
       .select("*")
-      .eq("userId", userId)
+      .eq("userId", userId);
 
     if (addingError) {
       console.error("Error fetching cart items:", addingError);
@@ -52,7 +61,7 @@ const Card = () => {
     setLoading(false);
   };
 
-  const handleRemove = async (card_id) => {
+  const handleRemove = async (card_id: string) => {
     const { error } = await supabase.from("card").delete().eq("id", card_id);
     if (error) {
       console.error("Delete error:", error);
