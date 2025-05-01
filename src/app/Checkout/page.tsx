@@ -7,12 +7,39 @@ import { supabase } from "../supbaseClient";
 import Logo from "../images/image 17.png";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const Checkout = () => {
-  const [cartItems, setCartItems] = useState<any[]>([]);
+interface User {
+  firstName: string;
+  lastName: string;
+  country: string;
+  city: string;
+  street: string;
+  apartment: string;
+  state: string;
+  zipCode: string;
+  email: string;
+  phone: string;
+  notes: string;
+}
+
+interface CartItem {
+  id: number;
+  product_id: number;
+  quantity: number;
+  product: {
+    name: string;
+    price: number;
+    image: string;
+    id: number;
+  };
+  userId:string
+}
+
+const Checkout: React.FC = () => {
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [showModal, setShowModal] = useState(false);
-  const [userId, setUserId] = useState("");
-  const [paymentMethod, setPaymentMethod] = useState("");
-  const [user, setUser] = useState({
+  const [userId, setUserId] = useState<string>("");
+  const [paymentMethod, setPaymentMethod] = useState<string>("");
+  const [user, setUser] = useState<User>({
     firstName: "",
     lastName: "",
     country: "",
@@ -63,18 +90,22 @@ const Checkout = () => {
     setCartItems(itemsWithProducts);
   };
 
-  const calculateTotal = () => {
+  const calculateTotal = (): number => {
     return cartItems.reduce((sum, item) => {
       return sum + (item.product?.price || 0) * (item.quantity || 0);
     }, 0);
   };
 
-  const handleChange = (e) => {
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
+  ) => {
     const { name, value } = e.target;
     setUser((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleChangePayment = (e) => {
+  const handleChangePayment = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPaymentMethod(e.target.value);
   };
 
@@ -91,7 +122,7 @@ const Checkout = () => {
       "state",
       "zipCode",
     ];
-    const incomplete = requiredFields.some((f) => !user[f]);
+    const incomplete = requiredFields.some((f) => !user[f as keyof User]);
     if (incomplete) return alert("Please fill in all required fields.");
 
     const tovar = cartItems.map((item) => ({
@@ -299,7 +330,6 @@ const Checkout = () => {
             ))}
           </ul>
 
-          {/* Qolgan qismlar o'zgartirilmagan */}
           <div className="flex justify-between mt-4 font-bold text-lg">
             <span>Total:</span>
             <span className="text-green-600">
@@ -350,7 +380,7 @@ const Checkout = () => {
 
           {showModal && (
             <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-              <div className="bg-white p-6 rounnpm ded shadow w-11/12 max-w-md">
+              <div className="bg-white p-6 rounded shadow w-11/12 max-w-md">
                 <h3 className="text-xl font-bold mb-4">Order Confirmation</h3>
                 <p className="mb-4">Your order has been placed successfully!</p>
                 <button
