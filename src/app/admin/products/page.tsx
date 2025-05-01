@@ -1,7 +1,13 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { getProducts, getCategories, addProduct, deleteProduct, editProduct } from "../Function";
+import {
+  getProducts,
+  getCategories,
+  addProduct,
+  deleteProduct,
+  editProduct,
+} from "../Function";
 import Image from "next/image";
 
 interface Product {
@@ -9,8 +15,8 @@ interface Product {
   name: string;
   image: string;
   price: number;
-  categoryId: string;
   sale: boolean;
+  categoryId: string;
   like: boolean;
 }
 
@@ -19,15 +25,14 @@ interface Category {
   name: string;
 }
 
-const Products: React.FC = () => {
+const Products = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [currentId, setCurrentId] = useState<number | null>(null);
 
-  const [form, setForm] = useState<Product>({
-    id: 0,
+  const [form, setForm] = useState({
     name: "",
     image: "",
     price: 0,
@@ -40,22 +45,36 @@ const Products: React.FC = () => {
     loadData();
   }, []);
 
-  const loadData = () => {
-    getProducts().then(setProducts);
-    getCategories().then(setCategories);
+  const loadData = async () => {
+    try {
+      const productsData = await getProducts();
+      const categoriesData = await getCategories();
+
+      if (Array.isArray(productsData)) {
+        setProducts(productsData);
+      }
+
+      if (Array.isArray(categoriesData)) {
+        setCategories(categoriesData);
+      }
+    } catch (error) {
+      console.error("Error loading data:", error);
+    }
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setForm({ ...form, image: reader.result as string });
-    };
     if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setForm({ ...form, image: reader.result as string });
+      };
       reader.readAsDataURL(file);
     }
   };
@@ -82,7 +101,6 @@ const Products: React.FC = () => {
 
   const resetForm = () => {
     setForm({
-      id: 0,
       name: "",
       image: "",
       price: 0,
@@ -118,7 +136,10 @@ const Products: React.FC = () => {
         </button>
       </div>
 
-      <div className="table-responsive" style={{ maxHeight: "400px", overflowY: "auto" }}>
+      <div
+        className="table-responsive"
+        style={{ maxHeight: "400px", overflowY: "auto" }}
+      >
         <table className="table table-striped table-bordered align-middle text-center">
           <thead className="table-dark">
             <tr>
@@ -130,8 +151,8 @@ const Products: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {products.map((item) => (
-              <tr key={item.id}>
+            {products.map((item, idx) => (
+              <tr key={idx}>
                 <td>{item.name}</td>
                 <td>
                   <Image
@@ -145,10 +166,16 @@ const Products: React.FC = () => {
                 <td>{item.price}</td>
                 <td>{item.categoryId}</td>
                 <td>
-                  <button className="btn btn-sm btn-danger me-2" onClick={() => handleDelete(item.id)}>
+                  <button
+                    className="btn btn-sm btn-danger me-2"
+                    onClick={() => handleDelete(item.id)}
+                  >
                     Delete
                   </button>
-                  <button className="btn btn-sm btn-warning" onClick={() => handleEdit(item)}>
+                  <button
+                    className="btn btn-sm btn-warning"
+                    onClick={() => handleEdit(item)}
+                  >
                     Edit
                   </button>
                 </td>
@@ -163,8 +190,14 @@ const Products: React.FC = () => {
           <div className="modal-dialog">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title">{isEditing ? "Edit Product" : "Add Product"}</h5>
-                <button type="button" className="btn-close" onClick={resetForm}></button>
+                <h5 className="modal-title">
+                  {isEditing ? "Edit Product" : "Add Product"}
+                </h5>
+                <button
+                  type="button"
+                  className="btn-close"
+                  onClick={resetForm}
+                ></button>
               </div>
               <div className="modal-body">
                 <input
@@ -204,10 +237,18 @@ const Products: React.FC = () => {
                 </select>
               </div>
               <div className="modal-footer">
-                <button type="button" className="btn btn-secondary" onClick={resetForm}>
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={resetForm}
+                >
                   Close
                 </button>
-                <button type="button" className="btn btn-success" onClick={handleSubmit}>
+                <button
+                  type="button"
+                  className="btn btn-success"
+                  onClick={handleSubmit}
+                >
                   {isEditing ? "Update Product" : "Save Product"}
                 </button>
               </div>

@@ -25,7 +25,7 @@ const Category: React.FC = () => {
   }, []);
 
   const loadCategories = async () => {
-    const data = await getCategories();
+    const data = (await getCategories()) as Category[];
     setCategories(data);
   };
 

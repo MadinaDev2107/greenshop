@@ -1,12 +1,14 @@
 import { supabase } from "../supbaseClient";
 
 export interface Product {
-  id?: number;
+  id: number;
   name: string;
   price: number;
-  category_id: number;
+  like: boolean;
+  sale: boolean;
+  categoryId: string;
   description?: string;
-  image_url?: string;
+  image: string;
 }
 
 export interface User {
@@ -16,7 +18,7 @@ export interface User {
 }
 
 export interface Category {
-  id?: number;
+  id: string;
   name: string;
 }
 
@@ -27,31 +29,33 @@ export interface Order {
   created_at: string;
 }
 
-export async function getProducts(): Promise<Product[] | null> {
+export async function getProducts(): Promise<Product[]> {
   const { data, error } = await supabase.from("products").select("*");
   if (error) throw error;
   return data;
 }
 
-export async function getUsers(): Promise<User[] | null> {
+export async function getUsers(): Promise<User[]> {
   const { data, error } = await supabase.from("user").select("*");
   if (error) throw error;
   return data;
 }
 
-export async function getCategories(): Promise<Category[] | null> {
+export async function getCategories(): Promise<Category[]> {
   const { data, error } = await supabase.from("category").select("*");
   if (error) throw error;
   return data;
 }
 
-export async function getOrders(): Promise<Order[] | null> {
+export async function getOrders(): Promise<Order[]> {
   const { data, error } = await supabase.from("orders").select("*");
   if (error) throw error;
   return data;
 }
 
-export const addProduct = async (product: Product): Promise<Product[] | null> => {
+export const addProduct = async (
+  product: Product
+): Promise<Product[] | null> => {
   const { data, error } = await supabase.from("products").insert([product]);
   if (error) throw error;
   return data;
@@ -74,7 +78,9 @@ export const editProduct = async (
   return data;
 };
 
-export const addCategory = async (category: Category): Promise<Category[] | null> => {
+export const addCategory = async (
+  category: Category
+): Promise<Category[] | null> => {
   const { data, error } = await supabase.from("category").insert([category]);
   if (error) throw error;
   return data;

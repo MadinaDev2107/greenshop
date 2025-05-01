@@ -2,28 +2,10 @@
 
 import React, { useEffect, useState } from "react";
 import { getCategories, getOrders, getProducts } from "../Function";
-
+import { Product, Category, Order } from "../Function";
 interface Stats {
   title: string;
   count: number;
-}
-
-interface Product {
-  id: number;
-  name: string;
-  // Qo'shimcha xususiyatlar kerak bo'lsa, qo'shing
-}
-
-interface Category {
-  id: number;
-  name: string;
-  // Qo'shimcha xususiyatlar kerak bo'lsa, qo'shing
-}
-
-interface Order {
-  id: number;
-  product: string;
-  // Qo'shimcha xususiyatlar kerak bo'lsa, qo'shing
 }
 
 const Dashboard: React.FC = () => {
@@ -32,8 +14,8 @@ const Dashboard: React.FC = () => {
   const [orders, setOrders] = useState<Order[]>([]);
 
   useEffect(() => {
-    getProducts().then((res) => setProducts(res));
-    getCategories().then((res) => setCategories(res));
+    getProducts().then((res) => setProducts(res as Product[]));
+    getCategories().then((res) => setCategories(res as Category[]));
     getOrders().then((res) => setOrders(res));
   }, []);
 
