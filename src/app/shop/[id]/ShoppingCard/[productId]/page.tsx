@@ -24,14 +24,11 @@ const Shopping = () => {
       setUserId(storedUserId);
     }
   }, []);
+  if (userId) {
+    fetchCartItems();
+  }
 
-  useEffect(() => {
-    if (userId) {
-      fetchCartItems();
-    }
-  }, [userId]);
-
-  const fetchCartItems = async () => {
+  async function fetchCartItems() {
     const { data: addings, error: addingError } = await supabase
       .from("adding")
       .select("*")
@@ -62,7 +59,7 @@ const Shopping = () => {
     );
 
     setCartItems(itemsWithProducts);
-  };
+  }
 
   const handleQuantityChange = async (
     itemId: number,
