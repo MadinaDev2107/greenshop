@@ -1,23 +1,46 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { getCategories,  getOrders, getProducts } from "../Function";
+import { getCategories, getOrders, getProducts } from "../Function";
 
-const Dashboard = () => {
-  const [Products, setProducts] = useState([]);
-  const [Category, setCategories] = useState([]);
-  const [Orders, setOrders] = useState([]);
+interface Stats {
+  title: string;
+  count: number;
+}
+
+interface Product {
+  id: number;
+  name: string;
+  // Qo'shimcha xususiyatlar kerak bo'lsa, qo'shing
+}
+
+interface Category {
+  id: number;
+  name: string;
+  // Qo'shimcha xususiyatlar kerak bo'lsa, qo'shing
+}
+
+interface Order {
+  id: number;
+  product: string;
+  // Qo'shimcha xususiyatlar kerak bo'lsa, qo'shing
+}
+
+const Dashboard: React.FC = () => {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [orders, setOrders] = useState<Order[]>([]);
 
   useEffect(() => {
-    getProducts().then((Res) => setProducts(Res));
-    getCategories().then((Res) => setCategories(Res));
-    getOrders().then((Res) => setOrders(Res));
+    getProducts().then((res) => setProducts(res));
+    getCategories().then((res) => setCategories(res));
+    getOrders().then((res) => setOrders(res));
   }, []);
 
-  const stats = [
-    { title: "Categories", count: Category.length },
-    { title: "Orders", count: Orders.length },
-    { title: "Products", count: Products.length },
+  const stats: Stats[] = [
+    { title: "Categories", count: categories.length },
+    { title: "Orders", count: orders.length },
+    { title: "Products", count: products.length },
     { title: "Users", count: 8 },
   ];
 

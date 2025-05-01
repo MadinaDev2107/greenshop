@@ -1,26 +1,36 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import {
-  getProducts,
-  getCategories,
-  addProduct,
-  deleteProduct,
-  editProduct,
-} from "../Function";
+import { getProducts, getCategories, addProduct, deleteProduct, editProduct } from "../Function";
 import Image from "next/image";
 
-const Products = () => {
-  const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [showModal, setShowModal] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
-  const [currentId, setCurrentId] = useState(null);
+interface Product {
+  id: number;
+  name: string;
+  image: string;
+  price: number;
+  categoryId: string;
+  sale: boolean;
+  like: boolean;
+}
 
-  const [form, setForm] = useState({
+interface Category {
+  id: string;
+  name: string;
+}
+
+const Products: React.FC = () => {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [currentId, setCurrentId] = useState<number | null>(null);
+
+  const [form, setForm] = useState<Product>({
+    id: 0,
     name: "",
     image: "",
-    price: "",
+    price: 0,
     sale: true,
     categoryId: "",
     like: false,
@@ -35,15 +45,15 @@ const Products = () => {
     getCategories().then(setCategories);
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
     const reader = new FileReader();
     reader.onloadend = () => {
-      setForm({ ...form, image: reader.result });
+      setForm({ ...form, image: reader.result as string });
     };
     if (file) {
       reader.readAsDataURL(file);
@@ -72,9 +82,10 @@ const Products = () => {
 
   const resetForm = () => {
     setForm({
+      id: 0,
       name: "",
       image: "",
-      price: "",
+      price: 0,
       sale: true,
       categoryId: "",
       like: false,
@@ -84,14 +95,14 @@ const Products = () => {
     setCurrentId(null);
   };
 
-  const handleEdit = (item) => {
+  const handleEdit = (item: Product) => {
     setForm(item);
     setCurrentId(item.id);
     setIsEditing(true);
     setShowModal(true);
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (id: number) => {
     if (confirm("Are you sure you want to delete this product?")) {
       await deleteProduct(id);
       loadData();
@@ -119,8 +130,8 @@ const Products = () => {
             </tr>
           </thead>
           <tbody>
-            {products.map((item, idx) => (
-              <tr key={idx}>
+            {products.map((item) => (
+              <tr key={item.id}>
                 <td>{item.name}</td>
                 <td>
                   <Image

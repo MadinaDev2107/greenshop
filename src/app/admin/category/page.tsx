@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, ChangeEvent } from "react";
 import {
   getCategories,
   addCategory,
@@ -8,12 +8,17 @@ import {
   editCategory,
 } from "../Function";
 
-const Category = () => {
-  const [categories, setCategories] = useState([]);
-  const [form, setForm] = useState({ name: "" });
-  const [showModal, setShowModal] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
-  const [currentId, setCurrentId] = useState(null);
+interface Category {
+  id: number;
+  name: string;
+}
+
+const Category: React.FC = () => {
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [form, setForm] = useState<{ name: string }>({ name: "" });
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [currentId, setCurrentId] = useState<number | null>(null);
 
   useEffect(() => {
     loadCategories();
@@ -24,7 +29,7 @@ const Category = () => {
     setCategories(data);
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setForm({ name: e.target.value });
   };
 
@@ -50,14 +55,14 @@ const Category = () => {
     setCurrentId(null);
   };
 
-  const handleEdit = (item) => {
+  const handleEdit = (item: Category) => {
     setForm({ name: item.name });
     setCurrentId(item.id);
     setIsEditing(true);
     setShowModal(true);
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (id: number) => {
     if (confirm("Are you sure you want to delete this category?")) {
       await deleteCategory(id);
       loadCategories();
