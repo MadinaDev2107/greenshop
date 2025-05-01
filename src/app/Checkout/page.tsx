@@ -31,7 +31,7 @@ interface CartItem {
     image: string;
     id: number;
   };
-  userId:string
+  userId: string;
 }
 
 const Checkout: React.FC = () => {
@@ -58,11 +58,11 @@ const Checkout: React.FC = () => {
     if (storedUserId) setUserId(storedUserId);
   }, []);
 
-  useEffect(() => {
-    if (userId) fetchCartItems();
-  }, [userId]);
+  if (userId) {
+    fetchCartItems();
+  }
 
-  const fetchCartItems = async () => {
+  async function fetchCartItems() {
     const { data: addings, error: addingError } = await supabase
       .from("adding")
       .select("*")
@@ -88,7 +88,7 @@ const Checkout: React.FC = () => {
     );
 
     setCartItems(itemsWithProducts);
-  };
+  }
 
   const calculateTotal = (): number => {
     return cartItems.reduce((sum, item) => {
