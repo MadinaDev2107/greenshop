@@ -22,12 +22,10 @@ const Card = () => {
     const storedUserId = localStorage.getItem("userId");
     if (storedUserId) setUserId(storedUserId);
   }, []);
-
-  useEffect(() => {
-    if (userId) fetchCartItems();
-  }, [userId]);
-
-  const fetchCartItems = async () => {
+  if (userId) {
+    fetchCartItems();
+  }
+  async function fetchCartItems() {
     setLoading(true);
 
     const { data: addings, error: addingError } = await supabase
@@ -59,7 +57,7 @@ const Card = () => {
 
     setCardItems(itemsWithProducts);
     setLoading(false);
-  };
+  }
 
   const handleRemove = async (card_id: string) => {
     const { error } = await supabase.from("card").delete().eq("id", card_id);

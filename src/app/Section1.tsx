@@ -34,7 +34,7 @@ export default function HeroSection() {
           </p>
           <h1 className="w-full uppercase text-[10px] sm:text-xs md:text-l font-bold leading-tight text-gray-800">
             <span className="font-extrabold">
-              let's make a <br />
+              let<span>&apos;</span>s make a <br />
             </span>
             <span className="font-extrabold">better </span>
             <span className="text-green-600 font-extrabold">planet</span>
