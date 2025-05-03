@@ -54,7 +54,7 @@ export async function getOrders(): Promise<Order[]> {
 }
 
 export const addProduct = async (
-  product: Product
+  product: Omit<Category, "id">
 ): Promise<Product[] | null> => {
   const { data, error } = await supabase.from("products").insert([product]);
   if (error) throw error;
