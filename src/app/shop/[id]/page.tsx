@@ -142,8 +142,8 @@ export default function ProductPage() {
       <div className="text-sm text-gray-500 mb-4">
         <Link href="/" className="btn m-3 fw-bold">
           Home
-        </Link>{" "}
-        /{" "}
+        </Link>
+        /
         <Link href="/" className="btn m-3 fw-bold">
           Shop
         </Link>
@@ -213,7 +213,7 @@ export default function ProductPage() {
           </div>
 
           {/* Quantity and Buttons */}
-          <div className="d-flex justify-content-center align-items-center gap-2">
+          <div className=" d-flex justify-content-center align-items-center gap-2">
             <div className="d-flex justify-content-around align-items-center gap-3 mb-4">
               <div className="d-flex align-items-center gap-3">
                 <button

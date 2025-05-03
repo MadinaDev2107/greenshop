@@ -22,7 +22,6 @@ interface Product {
 
 export default function PlantShop() {
   const router = useRouter();
-  const [priceRange, setPriceRange] = useState([10, 50]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
   const [activeCategory, setActiveCategory] = useState<number | null>(null);
@@ -51,7 +50,6 @@ export default function PlantShop() {
     setProducts(data || []);
   }
   const handleProductClick = (productId: number) => {
-    console.log(productId);
     router.push(`/shop/${productId}`);
   };
 
@@ -125,52 +123,9 @@ export default function PlantShop() {
             </ul>
           </div>
 
-          <div>
-            <h2 className="text-lg font-semibold mb-3">Price Range</h2>
-            <div className="flex items-center space-x-2">
-              <input
-                type="number"
-                value={priceRange[0]}
-                onChange={(e) =>
-                  setPriceRange([+e.target.value, priceRange[1]])
-                }
-                className="w-16 px-2 py-1 border rounded"
-              />
-              <span>—</span>
-              <input
-                type="number"
-                value={priceRange[1]}
-                onChange={(e) =>
-                  setPriceRange([priceRange[0], +e.target.value])
-                }
-                className="w-16 px-2 py-1 border rounded"
-              />
-            </div>
-            <div className="mt-2">
-              <input
-                type="range"
-                min="0"
-                max="100"
-                value={priceRange[0]}
-                onChange={(e) =>
-                  setPriceRange([+e.target.value, priceRange[1]])
-                }
-                className="w-full"
-              />
-              <input
-                type="range"
-                min="0"
-                max="100"
-                value={priceRange[1]}
-                onChange={(e) =>
-                  setPriceRange([priceRange[0], +e.target.value])
-                }
-                className="w-full mt-1"
-              />
-            </div>
-          </div>
+         
 
-          <div className="bg-green-100 p-4 rounded-xl text-center">
+          <div className="bg-green-100 p-4 rounded-xl text-center mt-3">
             <h3 className="text-green-800 text-lg font-bold">Super Sale</h3>
             <p className="text-green-600 text-sm">UP TO 75% OFF</p>
           </div>

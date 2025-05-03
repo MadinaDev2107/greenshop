@@ -136,9 +136,10 @@ const Header = () => {
             { name: "Blogs", href: "/blogs" },
           ].map((item, i) => (
             <a
+              style={{ all: "unset" }}
               key={i}
               href={item.href}
-              className="text-black border-b border-gray-300 pb-2 transition hover:text-green-600"
+              className="text-black border-b border-gray-300 p-2 transition hover:text-green-600"
             >
               {item.name}
             </a>
@@ -146,7 +147,7 @@ const Header = () => {
           <div className="flex items-center gap-4 mt-2">
             <Link
               href="/card"
-              className="flex items-center gap-2 text-sm font-medium text-white bg-green-600 hover:bg-green-700 px-3 py-1.5 rounded transition"
+              className="flex p-2 items-center gap-2 text-sm font-medium text-white bg-green-600 hover:bg-green-700 px-3 py-1.5 rounded transition"
             >
               <FaShoppingCart className="w-5 h-5 text-white" />
               Cart
@@ -154,7 +155,7 @@ const Header = () => {
 
             <Link
               href="/login"
-              className="flex items-center gap-2 text-sm font-medium text-white bg-green-600 hover:bg-green-700 px-3 py-1.5 rounded transition"
+              className="flex p-2 items-center gap-2 text-sm font-medium text-white bg-green-600 hover:bg-green-700 px-3 py-1.5 rounded transition"
             >
               <CiLogin className="w-5 h-5" />
               <span>Login</span>

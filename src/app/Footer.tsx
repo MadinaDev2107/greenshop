@@ -4,16 +4,11 @@ import {
   FaTwitter,
   FaLinkedinIn,
   FaYoutube,
-  FaHome,
-  FaHeart,
-  FaShoppingCart,
-  FaUser,
 } from "react-icons/fa";
 import Logos from "./images/Vector.png";
 import Logo from "./images/image 17.png";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Image from "next/image";
-import Link from "next/link";
 
 export default function Footer() {
   return (
@@ -118,31 +113,6 @@ export default function Footer() {
       </div>
 
       {/* Floating Bottom Navigation for Mobile */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 z-50">
-        <div className="relative bg-white rounded-t-3xl shadow-lg mx-auto max-w-md flex justify-between items-center px-6 py-4">
-          {/* Home */}
-          <Link href={"/"} className="text-green-500">
-            <FaHome size={20} />
-          </Link>
-
-          {/* Like */}
-          <Link href={"/like"} className="text-gray-400">
-            <FaHeart size={20} />
-          </Link>
-
-          {/* Center Scan Link */}
-
-          {/* Cart */}
-          <Link href={"shop"} className="text-gray-400">
-            <FaShoppingCart size={20} />
-          </Link>
-
-          {/* User */}
-          <Link href={"/user"} className="text-gray-400">
-            <FaUser size={20} />
-          </Link>
-        </div>
-      </div>
     </footer>
   );
 }
