@@ -79,7 +79,7 @@ export const editProduct = async (
 };
 
 export const addCategory = async (
-  category: Category
+  category: Pick<Category, "name">
 ): Promise<Category[] | null> => {
   const { data, error } = await supabase.from("category").insert([category]);
   if (error) throw error;
