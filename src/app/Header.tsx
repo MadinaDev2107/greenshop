@@ -126,7 +126,7 @@ const Header = () => {
       </div>
 
       {/* Mobile Menu */}
-      {menuOpen && !mobileSearch && (
+      {menuOpen  && (
         <div className="lg:hidden mt-4 flex flex-col gap-4 text-sm font-semibold">
           {[
             { name: "Home", href: "/" },
