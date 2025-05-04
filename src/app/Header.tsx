@@ -1,28 +1,37 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
-import { FaShoppingCart, FaSearch } from "react-icons/fa";
+import {
+  FaShoppingCart,
+  FaSearch,
+  FaHome,
+  FaLeaf,
+  FaBlog,
+  FaShopify,
+} from "react-icons/fa";
 import { CiLogin } from "react-icons/ci";
 import Link from "next/link";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Logo from "./images/Vector.png";
 
 const Header = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
   const [mobileSearch, setMobileSearch] = useState(false);
 
-  const toggleMobileMenu = () => {
-    setMenuOpen(!menuOpen);
-  };
-
-  const toggleSearchBar = () => {
-    setMobileSearch(!mobileSearch);
-  };
+  const mobileNavItems = [
+    { name: "Home", href: "/", icon: <FaHome className="w-5 h-5 text-green-600" /> },
+    { name: "Shop", href: "/shop", icon: <FaShopify className="w-5 h-5  text-green-600" /> },
+    {
+      name: "Plant Care",
+      href: "/plant-care",
+      icon: <FaLeaf className="w-5 h-5  text-green-600" />,
+    },
+    { name: "Blogs", href: "/blogs", icon: <FaBlog className="w-5 h-5  text-green-600" /> },
+  ];
 
   return (
-    <header className="px-4 md:px-6 py-4 border-b border-gray-200">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
+    <>
+      <header className="px-4 md:px-6 py-4 border-b border-gray-200 bg-white z-50 relative">
+        <div className="flex items-center justify-between">
           <div className="lg:flex hidden items-center gap-2">
             <Image src={Logo} alt="Plants" width={30} height={30} />
             <span className="text-green-600 font-extrabold text-xl">
@@ -30,10 +39,10 @@ const Header = () => {
             </span>
           </div>
 
-          {/* Mobil holatda search */}
-          <div className="lg:hidden w-full">
+          {/* Mobile left (only logo or search input) */}
+          <div className="lg:hidden flex-1">
             {mobileSearch ? (
-              <div className="flex items-center bg-gray-100 rounded-xl px-4 py-2 w-full shadow-sm">
+              <div className="flex items-center bg-gray-100 rounded-xl px-4 py-2 shadow-sm">
                 <FaSearch className="w-5 h-5 text-gray-400" />
                 <input
                   type="text"
@@ -53,116 +62,65 @@ const Header = () => {
               </span>
             )}
           </div>
-        </div>
 
-        <nav className="hidden lg:flex gap-14 text-sm font-medium">
-          {[
-            { name: "Home", href: "/" },
-            { name: "Shop", href: "/shop" },
-            { name: "Plant Care", href: "/plant-care" },
-            { name: "Blogs", href: "/blogs" },
-          ].map((item, i) => (
-            <a
-              href={item.href}
-              key={i}
-              className="group transition duration-300 font-semibold"
+          {/* Desktop navigatsiya */}
+          <nav className="hidden lg:flex gap-14 text-sm font-medium">
+            {mobileNavItems.map((item, i) => (
+              <a
+                href={item.href}
+                key={i}
+                className="group transition duration-300 font-semibold"
+              >
+                <span className="text-black text-base border-b-2 border-transparent group-hover:border-green-500 group-hover:font-extrabold transition-all duration-300 pb-1 inline-block">
+                  {item.name}
+                </span>
+              </a>
+            ))}
+          </nav>
+
+          {/* Ikonkalar */}
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => setMobileSearch(!mobileSearch)}
+              className="lg:hidden"
             >
-              <span className="text-black text-base border-b-2 border-transparent group-hover:border-green-500 group-hover:font-extrabold transition-all duration-300 pb-1 inline-block">
-                {item.name}
-              </span>
-            </a>
-          ))}
-        </nav>
+              <FaSearch className="w-5 h-5 text-gray-700" />
+            </button>
 
-        {/* Desktop icons */}
-        <div className="hidden lg:flex items-center gap-4">
-          <FaSearch className="w-5 h-5 cursor-pointer text-gray-700 hover:text-green-600 transition" />
-          <Link
-            href="/card"
-            className="btn btn-success d-flex justify-content-center align-items-center gap-2"
-          >
-            <FaShoppingCart className="w-5 h-5 text-white" />
-            <span className="hidden sm:inline">Card </span>
-          </Link>
-
-          <Link
-            href="/login"
-            className="btn btn-success d-flex justify-content-center align-items-center gap-2"
-          >
-            <CiLogin className="w-5 h-5" />
-            <span className="hidden sm:inline">Login</span>
-          </Link>
-        </div>
-
-        {/* Mobil ikonlar */}
-        <div className="lg:hidden flex items-center gap-4">
-          <button onClick={toggleSearchBar}>
-            <FaSearch className="w-5 h-5 text-gray-700" />
-          </button>
-          <button onClick={toggleMobileMenu}>
-            <svg
-              className="w-6 h-6 text-gray-800"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-            >
-              {menuOpen ? (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              ) : (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              )}
-            </svg>
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile Menu */}
-      {menuOpen  && (
-        <div className="lg:hidden mt-4 flex flex-col gap-4 text-sm font-semibold">
-          {[
-            { name: "Home", href: "/" },
-            { name: "Shop", href: "/shop" },
-            { name: "Plant Care", href: "/plant-care" },
-            { name: "Blogs", href: "/blogs" },
-          ].map((item, i) => (
-            <a
-              style={{ all: "unset" }}
-              key={i}
-              href={item.href}
-              className="text-black border-b border-gray-300 p-2 transition hover:text-green-600"
-            >
-              {item.name}
-            </a>
-          ))}
-          <div className="flex items-center gap-4 mt-2">
             <Link
               href="/card"
-              className="flex p-2 items-center gap-2 text-sm font-medium text-white bg-green-600 hover:bg-green-700 px-3 py-1.5 rounded transition"
+              className="btn btn-success d-flex justify-content-center align-items-center gap-2"
             >
               <FaShoppingCart className="w-5 h-5 text-white" />
-              Cart
+              <span className="hidden sm:inline">Cart</span>
             </Link>
 
             <Link
               href="/login"
-              className="flex p-2 items-center gap-2 text-sm font-medium text-white bg-green-600 hover:bg-green-700 px-3 py-1.5 rounded transition"
+              className="btn btn-success d-flex justify-content-center align-items-center gap-2"
             >
               <CiLogin className="w-5 h-5" />
-              <span>Login</span>
+              <span className="hidden sm:inline">Login</span>
             </Link>
           </div>
         </div>
-      )}
-    </header>
+      </header>
+
+      {/* Mobil pastki navigatsiya */}
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-300 flex justify-around items-center py-2 z-50">
+        {mobileNavItems.map((item, i) => (
+          <Link
+            style={{ all: "unset" }}
+            href={item.href}
+            key={i}
+            className="flex flex-col items-center text-xs text-gray-600 hover:text-green-600 transition"
+          >
+            {item.icon}
+            <span>{item.name}</span>
+          </Link>
+        ))}
+      </div>
+    </>
   );
 };
 
