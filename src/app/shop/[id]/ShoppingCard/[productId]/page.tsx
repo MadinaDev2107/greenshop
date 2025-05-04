@@ -102,7 +102,7 @@ const Shopping = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-6">
+    <div className="max-w-6xl mx-auto px-4 py-6 mb-5">
       <h2 className="text-2xl font-bold text-center mb-6">Cart</h2>
 
       <div className=" mb-2 space-y-4 md:hidden">
