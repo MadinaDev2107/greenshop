@@ -137,7 +137,7 @@ export default function ProductPage() {
   if (error) return <div className="p-6 text-red-600">{error}</div>;
 
   return (
-    <div className="p-6 mx-auto max-w-6xl">
+    <div className="p-6 mx-auto max-w-6xl mb-5">
       {/* Breadcrumb */}
       <div className="text-sm text-gray-500 mb-4">
         <Link href="/" className="btn m-3 fw-bold">
