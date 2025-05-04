@@ -169,7 +169,7 @@ const Checkout: React.FC = () => {
   };
 
   return (
-    <div className="p-4">
+    <div className="p-4 mb-5">
       {/* Breadcrumb */}
       <div className="text-sm text-gray-500 mb-4">
         <Link href="/" className="mr-2 font-bold">
