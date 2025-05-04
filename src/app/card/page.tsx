@@ -1,80 +1,80 @@
-"use client";
+// "use client";
 
-import React, { useEffect, useState } from "react";
-import Image from "next/image";
-import { supabase } from "../supbaseClient";
+// import React, { useEffect, useState } from "react";
+// import Image from "next/image";
+// import { supabase } from "../supbaseClient";
 
-interface Product {
-  id: string;
-  product: {
-    name: string;
-    price: string;
-    image: string;
-  };
-  quantity: number;
-}
-const Card = () => {
-  const [cardItems, setCardItems] = useState<Product[]>([]);
-  const [userId, setUserId] = useState("");
-  const [loading, setLoading] = useState(true);
+// interface Product {
+//   id: string;
+//   product: {
+//     name: string;
+//     price: string;
+//     image: string;
+//   };
+//   quantity: number;
+// }
+// const Card = () => {
+//   const [cardItems, setCardItems] = useState<Product[]>([]);
+//   const [userId, setUserId] = useState("");
+//   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const storedUserId = localStorage.getItem("userId");
-    if (storedUserId) setUserId(storedUserId);
-  }, []);
-  if (userId) {
-    fetchCartItems();
-  }
-  async function fetchCartItems() {
-    setLoading(true);
+//   useEffect(() => {
+//     const storedUserId = localStorage.getItem("userId");
+//     if (storedUserId) setUserId(storedUserId);
+//   }, []);
+//   if (userId) {
+//     fetchCartItems();
+//   }
+//   async function fetchCartItems() {
+//     setLoading(true);
 
-    const { data: addings, error: addingError } = await supabase
-      .from("card")
-      .select("*")
-      .eq("userId", userId);
+//     const { data: addings, error: addingError } = await supabase
+//       .from("card")
+//       .select("*")
+//       .eq("userId", userId);
 
-    if (addingError) {
-      console.error("Error fetching cart items:", addingError);
-      setLoading(false);
-      return;
-    }
+//     if (addingError) {
+//       console.error("Error fetching cart items:", addingError);
+//       setLoading(false);
+//       return;
+//     }
 
-    const itemsWithProducts = await Promise.all(
-      addings.map(async (item) => {
-        const { data: product, error: productError } = await supabase
-          .from("products")
-          .select("name, price, image, id")
-          .eq("id", item.product_id)
-          .single();
+//     const itemsWithProducts = await Promise.all(
+//       addings.map(async (item) => {
+//         const { data: product, error: productError } = await supabase
+//           .from("products")
+//           .select("name, price, image, id")
+//           .eq("id", item.product_id)
+//           .single();
 
-        if (productError) {
-          console.error("Product fetch error:", productError);
-        }
+//         if (productError) {
+//           console.error("Product fetch error:", productError);
+//         }
 
-        return { ...item, product };
-      })
-    );
+//         return { ...item, product };
+//       })
+//     );
 
-    setCardItems(itemsWithProducts);
-    setLoading(false);
-  }
+//     setCardItems(itemsWithProducts);
+//     setLoading(false);
+//   }
 
-  const handleRemove = async (card_id: string) => {
-    const { error } = await supabase.from("card").delete().eq("id", card_id);
-    if (error) {
-      console.error("Delete error:", error);
-    } else {
-      fetchCartItems();
-    }
-  };
+//   const handleRemove = async (card_id: string) => {
+//     const { error } = await supabase.from("card").delete().eq("id", card_id);
+//     if (error) {
+//       console.error("Delete error:", error);
+//     } else {
+//       fetchCartItems();
+//     }
+//   };
 
   return (
     <div className="p-4 max-w-6xl mx-auto">
       <h1 className="text-2xl sm:text-3xl font-bold mb-4 text-center sm:text-left">
-        Your Cart
+        "hello"
       </h1>
 
-      {loading ? (
+{/*       {loading ? (
         <p className="text-center">Loading...</p>
       ) : cardItems.length === 0 ? (
         <p className="text-green-600 text-center">No products in cart 🛒</p>
@@ -113,7 +113,7 @@ const Card = () => {
             </div>
           ))}
         </div>
-      )}
+      )} */}
     </div>
   );
 };
