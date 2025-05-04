@@ -1,4 +1,5 @@
 "use client";
+import { useCallback } from "react";
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
@@ -25,14 +26,9 @@ const Card = () => {
       setUserId(storedUserId);
     }
   }, []);
+ 
 
-  useEffect(() => {
-    if (userId) {
-      fetchCartItems();
-    }
-  }, [userId]); // 🔁 Faqat userId o'zgarganda fetch chaqiriladi
-
-  async function fetchCartItems() {
+  const fetchCartItems = useCallback(async () => {
     setLoading(true);
 
     const { data: addings, error: addingError } = await supabase
@@ -64,7 +60,14 @@ const Card = () => {
 
     setCardItems(itemsWithProducts);
     setLoading(false);
-  }
+  }, [userId]); // 
+
+  useEffect(() => {
+    if (userId) {
+      fetchCartItems();
+    }
+  }, [userId, fetchCartItems]);
+  
 
   const handleRemove = async (card_id: string) => {
     const { error } = await supabase.from("card").delete().eq("id", card_id);
