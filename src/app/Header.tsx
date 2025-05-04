@@ -17,7 +17,6 @@ const Header = () => {
 
   const toggleSearchBar = () => {
     setMobileSearch(!mobileSearch);
-    setMenuOpen(false);
   };
 
   return (
