@@ -1,80 +1,87 @@
-// "use client";
+"use client";
 
-// import React, { useEffect, useState } from "react";
-// import Image from "next/image";
-// import { supabase } from "../supbaseClient";
+import React, { useEffect, useState } from "react";
+import Image from "next/image";
+import { supabase } from "../supbaseClient";
 
-// interface Product {
-//   id: string;
-//   product: {
-//     name: string;
-//     price: string;
-//     image: string;
-//   };
-//   quantity: number;
-// }
-// const Card = () => {
-//   const [cardItems, setCardItems] = useState<Product[]>([]);
-//   const [userId, setUserId] = useState("");
-//   const [loading, setLoading] = useState(true);
+interface Product {
+  id: string;
+  product: {
+    name: string;
+    price: string;
+    image: string;
+  };
+  quantity: number;
+}
 
-//   useEffect(() => {
-//     const storedUserId = localStorage.getItem("userId");
-//     if (storedUserId) setUserId(storedUserId);
-//   }, []);
-//   if (userId) {
-//     fetchCartItems();
-//   }
-//   async function fetchCartItems() {
-//     setLoading(true);
+const Card = () => {
+  const [cardItems, setCardItems] = useState<Product[]>([]);
+  const [userId, setUserId] = useState("");
+  const [loading, setLoading] = useState(true);
 
-//     const { data: addings, error: addingError } = await supabase
-//       .from("card")
-//       .select("*")
-//       .eq("userId", userId);
+  useEffect(() => {
+    const storedUserId = localStorage.getItem("userId");
+    if (storedUserId) {
+      setUserId(storedUserId);
+    }
+  }, []);
 
-//     if (addingError) {
-//       console.error("Error fetching cart items:", addingError);
-//       setLoading(false);
-//       return;
-//     }
+  useEffect(() => {
+    if (userId) {
+      fetchCartItems();
+    }
+  }, [userId]); // 🔁 Faqat userId o'zgarganda fetch chaqiriladi
 
-//     const itemsWithProducts = await Promise.all(
-//       addings.map(async (item) => {
-//         const { data: product, error: productError } = await supabase
-//           .from("products")
-//           .select("name, price, image, id")
-//           .eq("id", item.product_id)
-//           .single();
+  async function fetchCartItems() {
+    setLoading(true);
 
-//         if (productError) {
-//           console.error("Product fetch error:", productError);
-//         }
+    const { data: addings, error: addingError } = await supabase
+      .from("card")
+      .select("*")
+      .eq("userId", userId);
 
-//         return { ...item, product };
-//       })
-//     );
+    if (addingError) {
+      console.error("Error fetching cart items:", addingError);
+      setLoading(false);
+      return;
+    }
 
-//     setCardItems(itemsWithProducts);
-//     setLoading(false);
-//   }
+    const itemsWithProducts = await Promise.all(
+      addings.map(async (item) => {
+        const { data: product, error: productError } = await supabase
+          .from("products")
+          .select("name, price, image, id")
+          .eq("id", item.product_id)
+          .single();
 
-//   const handleRemove = async (card_id: string) => {
-//     const { error } = await supabase.from("card").delete().eq("id", card_id);
-//     if (error) {
-//       console.error("Delete error:", error);
-//     } else {
-//       fetchCartItems();
-//     }
-//   };
+        if (productError) {
+          console.error("Product fetch error:", productError);
+        }
+
+        return { ...item, product };
+      })
+    );
+
+    setCardItems(itemsWithProducts);
+    setLoading(false);
+  }
+
+  const handleRemove = async (card_id: string) => {
+    const { error } = await supabase.from("card").delete().eq("id", card_id);
+    if (error) {
+      console.error("Delete error:", error);
+    } else {
+      fetchCartItems();
+    }
+  };
 
   return (
     <div className="p-4 max-w-6xl mx-auto">
       <h1 className="text-2xl sm:text-3xl font-bold mb-4 text-center sm:text-left">
-        "hello"
+        Your Cart
       </h1>
 
-{/*       {loading ? (
+      {loading ? (
         <p className="text-center">Loading...</p>
       ) : cardItems.length === 0 ? (
         <p className="text-green-600 text-center">No products in cart 🛒</p>
@@ -113,9 +120,11 @@
             </div>
           ))}
         </div>
-      )} */}
+      )}
     </div>
   );
 };
 
 export default Card;
+
+     
